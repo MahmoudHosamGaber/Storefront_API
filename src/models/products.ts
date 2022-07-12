@@ -3,7 +3,7 @@ import Client from "../config/database";
 export type Product = {
   id?: number | string;
   name: string;
-  price: string;
+  price: number | string;
 };
 
 export class ProductStore {
@@ -28,7 +28,7 @@ export class ProductStore {
       "INSERT INTO products (name, price) VALUES ($1, $2) RETURNING *";
     const result = await conn.query(insertProduct, [
       product.name,
-      parseInt(product.price),
+      parseInt(product.price as string),
     ]);
     await conn.release();
     return result.rows[0];
