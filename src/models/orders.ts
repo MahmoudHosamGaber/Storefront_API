@@ -1,11 +1,6 @@
 import Client from "../config/database";
 import { Product } from "./products";
 
-export type OrderProduct = {
-  name: string;
-  price: string | number;
-  quantity: string | number;
-};
 export type Order = {
   id?: number | string;
   user_id: number | string;

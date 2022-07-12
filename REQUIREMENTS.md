@@ -27,10 +27,13 @@ These are the notes from a meeting with the frontend developer that describe wha
 
 ## Data Shapes
 
-Table: products (id: serial primary key, name varchar, price integer)
-Table: users (id: serial primary key, firstName varchar, lastName varchar, password varchar)
-Table: orders (id: serial primary key, userID :string[foreign key to users table], status varchar)
-Table: order_products (id: serial primary key, orderId :string[foreign key to orders table], productId :string[foreign key to products table], quantity integer)
+#### Table: products (id: serial primary key, name varchar, price integer)
+
+#### Table: users (id: serial primary key, firstName varchar, lastName varchar, password varchar)
+
+#### Table: orders (id: serial primary key, userID :string[foreign key to users table], status varchar)
+
+#### Table: order_products (id: serial primary key, orderId :string [foreign key to orders table], productId :string [foreign key to products table], quantity integer)
 
 #### Product
 
