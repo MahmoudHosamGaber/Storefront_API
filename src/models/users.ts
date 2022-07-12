@@ -23,7 +23,7 @@ export class UserStore {
     try {
       const conn = await Client.connect();
       const user = await Client.query(`SELECT * FROM users WHERE id = $1`, [
-        id,
+        parseInt(id),
       ]);
       conn.release();
       return user.rows[0];
