@@ -17,7 +17,7 @@ export const register = asyncHandler(
     const user: User = {
       first_name: req.body.first_name,
       last_name: req.body.last_name,
-      password: await bcrypt.hash(req.body.password + process.env.PEPPER, 10),
+      password: req.body.password,
     };
     const result = await store.create(user);
     res.status(201).json(result);

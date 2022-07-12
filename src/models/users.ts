@@ -1,4 +1,5 @@
 import Client from "../config/database";
+import bcrypt from "bcrypt";
 
 export type User = {
   id?: number | string;
@@ -39,7 +40,7 @@ export class UserStore {
       const newUser = await Client.query(insert, [
         user.first_name,
         user.last_name,
-        user.password,
+        await bcrypt.hash(user.password + process.env.PEPPER, 10),
       ]);
       conn.release();
       return newUser.rows[0];
