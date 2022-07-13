@@ -6,9 +6,21 @@
    `npm install`
 1. Run the server with\
    `npm run watch`
+1. Create a user named full_stack_user with by running
+   ```
+      psql postgres
+      CREATE USER full_stack_user USING PASSWORD 'password123';
+      ALTER USER full_stack_user WITH superuser createdb;
+   ```
 1. Create a database called store and another called test
+   ```
+      CREATE DATABASE store;
+      CREATE DATABASE test;
+   ```
 1. Create the database tables by running\
-   `db-migrate up`
+   ```
+   db-migrate up
+   ```
 1. Use the default database prot (5432)
 1. create .env file and fill the variables mentioned bellow
 
