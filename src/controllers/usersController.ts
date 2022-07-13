@@ -1,5 +1,5 @@
 import { User, UserStore } from "../models/users";
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { UserRequest } from "../middleware/authUser";
 import asyncHandler from "express-async-handler";
 import bcrypt from "bcrypt";
@@ -9,8 +9,12 @@ import jwt from "jsonwebtoken";
 dotenv.config();
 
 const store = new UserStore();
-export const register = asyncHandler(
-  async (req: Request, res: Response): Promise<void> => {
+export const register = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
     if (!req.body.first_name || !req.body.last_name || !req.body.password) {
       throw new Error("Missing required fields");
     }
@@ -21,11 +25,17 @@ export const register = asyncHandler(
     };
     const result = await store.create(user);
     res.status(201).json(result);
+  } catch (error) {
+    next(error);
   }
-);
+};
 
-export const login = asyncHandler(
-  async (req: Request, res: Response): Promise<void> => {
+export const login = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
     const user = await store.show(req.body.id);
 
     if (!user) {
@@ -49,11 +59,16 @@ export const login = asyncHandler(
       first_name: (user as User).first_name,
       last_name: (user as User).last_name,
     });
+  } catch (error) {
+    next(error);
   }
-);
-
-export const index = asyncHandler(
-  async (req: UserRequest, res: Response): Promise<void> => {
+};
+export const index = async (
+  req: UserRequest,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
     const user = req.user;
     if (!user) {
       throw new Error("User Not Found");
@@ -61,14 +76,24 @@ export const index = asyncHandler(
 
     const users = await store.index();
     res.json(users);
+  } catch (error) {
+    next(error);
   }
-);
+};
 
-export const show = async (req: UserRequest, res: Response): Promise<void> => {
-  const user = req.user;
-  if (!user) {
-    throw new Error("User Not Found");
+export const show = async (
+  req: UserRequest,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const user = req.user;
+    if (!user) {
+      throw new Error("User Not Found");
+    }
+    const result = await store.show(req.params.id);
+    res.json(result);
+  } catch (error) {
+    next(error);
   }
-  const result = await store.show(req.params.id);
-  res.json(result);
 };
